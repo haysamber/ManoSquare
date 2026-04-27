@@ -1,0 +1,110 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+body {
+  background: #2a14cf;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-family: "Press Start 2P", monospace;
+  transition: background 0.5s ease;
+}
+
+body.good {
+  background: #7b00ff;
+}
+
+body.bad {
+  background: #000000;
+}
+
+.phone {
+  width: 320px;
+  height: 600px;
+  background: #2a14cf;
+  border: 6px solid #000000;
+  box-shadow: 8px 8px 0px #000000;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.header {
+  background: #000000;
+  color: #ffffff;
+  padding: 10px;
+  text-align: center;
+  font-size: 10px;
+  border-bottom: 4px solid #7b00ff;
+}
+
+#chat {
+  flex: 1;
+  padding: 10px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.message {
+  max-width: 85%;
+  padding: 8px;
+  margin: 6px;
+  font-size: 8px;
+  border: 3px solid #000;
+  box-shadow: 3px 3px 0px #000;
+  text-shadow: 1px 1px 0px #000;
+}
+
+.simon {
+  background: #7b00ff;
+  color: white;
+  align-self: flex-start;
+}
+
+.isaac {
+  background: #2a14cf;
+  color: white;
+  align-self: flex-end;
+  border: 3px solid #7b00ff;
+}
+
+.typing {
+  background: #fb4300;
+  color: #000;
+  font-style: italic;
+}
+
+#choices {
+  padding: 8px;
+  background: #000;
+  border-top: 4px solid #7b00ff;
+}
+
+button {
+  width: 100%;
+  margin: 4px 0;
+  padding: 8px;
+  font-size: 8px;
+  font-family: "Press Start 2P", monospace;
+  background: #7b00ff;
+  color: white;
+  border: 3px solid #000;
+  box-shadow: 3px 3px 0px #000;
+  cursor: pointer;
+}
+
+nav ul { display: flex; gap: 12px; list-style: none; flex-wrap: wrap; }
+nav a { color: #ff0066; text-decoration: none; padding: 8px 10px; border-radius: 6px; border: 1px solid transparent; }
+nav a:hover { background: #e0e7ff; border-color: #bfdbfe; }
+nav { position: relative; z-index: 10; }
+
+button:hover {
+  background: #fb4300;
+  color: black;
+}
+
+button:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0px #000;
+}

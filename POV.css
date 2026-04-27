@@ -1,0 +1,16 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: Arial, sans-serif; line-height: 1.6; background: #14022a; color: #111827; padding: 10px; }
+#wrapper { max-width: 980px; margin: 0 auto; background: #fff; border: 1px solid #d1d5db; border-radius: 8px; overflow: hidden; box-shadow: 0 8px 24px rgba(15, 23, 42, .12); }
+nav ul { display: flex; gap: 12px; list-style: none; flex-wrap: wrap; }
+nav a { color: #ff0066; text-decoration: none; padding: 8px 10px; border-radius: 6px; border: 1px solid transparent; }
+nav a:hover { background: #e0e7ff; border-color: #bfdbfe; }
+.hero { min-height: 220px; background: linear-gradient(120deg, #c300ff, #cf005d); margin-bottom: 18px; border-radius: 8px; display: flex; align-items: center; justify-content: center; }
+.hero-content { display: flex; gap: 16px; justify-content: center; width: 100%; padding: 14px; }
+.hero-square { flex: 1; max-width: 200px; min-height: 120px; background: rgba(255,255,255,0.15); border: 2px solid rgba(255,255,255,0.35); border-radius: 12px; color: #fff; text-align: center; font-weight: 700; text-decoration: none; display: flex; align-items: center; justify-content: center; transition: transform 0.2s, background 0.2s; }
+.hero-square:hover { background: rgba(255,255,255,0.35); transform: translateY(-4px); }
+main h2 { margin-bottom: 12px; }
+main p { margin-bottom: 12px; }
+#contact { margin-top: 14px; padding: 12px; background: #f8fafc; border: 1px dashed #031637; border-radius: 6px; }
+footer { background: #f3f4f6; font-size: .9rem; color: #4b5563; margin-top: 12px; }
+footer a { color: #1d4ed8; text-decoration: none; margin-right: 12px; }
+.resort { font-weight: 700; color: #0f172a; }

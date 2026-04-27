@@ -1,0 +1,6 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: Arial, sans-serif; line-height: 1.6; background: #14022a; color: #111827; padding: 10px; }
+#wrapper { max-width: 980px; margin: 0 auto; background: #fff; border: 1px solid #d1d5db; border-radius: 8px; overflow: hidden; box-shadow: 0 8px 24px rgba(15, 23, 42, .12); }
+footer { background: #f3f4f6; font-size: .9rem; color: #4b5563; margin-top: 12px; }
+footer a { color: #1d4ed8; text-decoration: none; margin-right: 12px; }
+.resort { font-weight: 700; color: #0f172a; }

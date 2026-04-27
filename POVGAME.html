@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="POV.css">
+  <title> POV - Experience the Mess</title>
+  <style>
+    body {
+      padding: 0;
+    }
+
+    nav {
+      position: relative;
+      z-index: 10;
+    }
+
+    #roomImage {
+      width: 100%;
+      height: 100vh;
+      object-fit: cover;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1;
+    }
+
+    #instructions {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10;
+      color: white;
+      font-family: Arial, sans-serif;
+      text-shadow: 0 0 12px rgba(0,0,0,0.7);
+      background: rgba(0, 0, 0, 0.35);
+      padding: 10px 16px;
+      border-radius: 8px;
+    }
+
+    nav {
+      position: relative;
+      z-index: 10;
+    }
+
+    #overlayImage.hidden {
+      display: none !important;
+    }
+  </style>
+</head>
+<body>
+<img id="roomImage" src="RoomPictures/DigitalTrash.png" alt="Room">
+<img id="overlayImage" src="overlay/SadBoySadW0rld.png" alt="Overlay" class="hidden" style="position: fixed; top: 20px; left: 50px; width: 420px; height: 345px; z-index: 2;">
+
+<nav>
+  <ul>
+    <li><a href="POV.html">EXIT</a></li>
+  </ul>
+</nav>
+
+<footer>
+ 
+</footer>
+
+<script>
+  const slides = [
+    'RoomPictures/DigitalTrash.png',
+    'RoomPictures/Transition1_1.jpg',
+    'RoomPictures/Transition1_2.jpg',
+    'RoomPictures/Room1.png',
+    'RoomPictures/Room2.png',
+    'RoomPictures/Room3.png',
+    'RoomPictures/Room4.png',
+    'RoomPictures/Room5.png',
+    'RoomPictures/Room6.png',
+    'RoomPictures/Room7.png',
+    'RoomPictures/Room8.png',
+    'RoomPictures/Room9.png',
+    'RoomPictures/Transition2_1.png',
+    'RoomPictures/Transition2_2.png',
+    'RoomPictures/Transition2_3.png',
+    'RoomPictures/Transition2_4.png',
+    'CafePictures/Cafe1.png',
+    'CafePictures/Cafe2.png',
+    'CafePictures/Cafe3.png',
+    'CafePictures/Cafe4.png',
+    'CafePictures/Cafe5.png',
+    'CafePictures/Cafe6.png',
+    'CafePictures/Cafe7.png',
+    'CafePictures/Cafe8.png',
+    'CafePictures/Cafe9.png',
+    'CafePictures/Cafe10.png',
+    'CafePictures/Cafe11.png',
+    'CafePictures/cafe12.png',
+    'CafePictures/Cafe13.png',
+    'CafePictures/Cafe14.png',
+    'CafePictures/Transition3_1.png',
+    'CafePictures/Transition3_2.png',
+    'CafePictures/Transition3_3.png',
+    'CafePictures/Transition3_4.png',
+    'CafePictures/Transition3_5.png',
+    'CafePictures/Transition3_6.png',
+    'SchoolPics/School1.png',
+    'SchoolPics/School2.png',
+    'SchoolPics/School3.png',
+    'SchoolPics/School4.png',
+    'SchoolPics/School5.png',
+    'SchoolPics/School6.png',
+    'SchoolPics/School7.png',
+    'SchoolPics/School8.png'
+  ];
+
+  let currentImageIndex = 0;
+  const roomImage = document.getElementById('roomImage');
+  const overlayImage = document.getElementById('overlayImage');
+  const instructions = document.getElementById('instructions');
+
+  document.addEventListener('keydown', function(event) {
+    if (event.code !== 'Space') {
+      return;
+    }
+
+    event.preventDefault();
+
+    if (currentImageIndex >= slides.length - 1) {
+      return;
+    }
+
+    currentImageIndex += 1;
+    roomImage.src = slides[currentImageIndex];
+
+    if (currentImageIndex >= 7) {
+      overlayImage.classList.remove('hidden');
+    }
+  });
+</script>
+</body>
+</html>
