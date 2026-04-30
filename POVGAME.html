@@ -44,14 +44,59 @@
       z-index: 10;
     }
 
-    #overlayImage.hidden {
-      display: none !important;
+    #typewriterText {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      z-index: 10;
+      background: rgba(0, 0, 0, 0.85);
+      color: white;
+      font-family: 'Courier New', monospace;
+      font-size: 18px;
+      padding: 15px 20px;
+      border-radius: 4px;
+      max-width: 400px;
+      min-height: 50px;
+      display: none;
+      line-height: 1.4;
+    }
+
+    #typewriterText.visible {
+      display: block;
+    }
+
+    #popupContainer {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1000;
+    }
+
+    #popupContainer img {
+      position: absolute;
+      max-width: 300px;
+      max-height: 200px;
+      transform: scale(1.5);
+      transform-origin: top left;
+      object-fit: contain;
+      border: 2px solid #fff;
+      box-shadow: 0 0 20px rgba(0,0,0,0.5);
+      cursor: pointer;
+      pointer-events: auto;
     }
   </style>
 </head>
+
+
 <body>
 <img id="roomImage" src="RoomPictures/DigitalTrash.png" alt="Room">
-<img id="overlayImage" src="overlay/SadBoySadW0rld.png" alt="Overlay" class="hidden" style="position: fixed; top: 20px; left: 50px; width: 420px; height: 345px; z-index: 2;">
+<div id="typewriterText"></div>
+
+
+<div id="popupContainer"></div>
 
 <nav>
   <ul>
@@ -65,7 +110,8 @@
 
 <script>
   const slides = [
-    'RoomPictures/DigitalTrash.png',
+    'DigitalTrash_Title.png',
+    'Content_Warning.png',
     'RoomPictures/Transition1_1.jpg',
     'RoomPictures/Transition1_2.jpg',
     'RoomPictures/Room1.png',
@@ -95,12 +141,11 @@
     'CafePictures/cafe12.png',
     'CafePictures/Cafe13.png',
     'CafePictures/Cafe14.png',
-    'CafePictures/Transition3_1.png',
-    'CafePictures/Transition3_2.png',
-    'CafePictures/Transition3_3.png',
+    'cafePictures/Cafe15.png',
     'CafePictures/Transition3_4.png',
     'CafePictures/Transition3_5.png',
     'CafePictures/Transition3_6.png',
+    'CafePictures/Transition3_7.png',
     'SchoolPics/School1.png',
     'SchoolPics/School2.png',
     'SchoolPics/School3.png',
@@ -108,13 +153,229 @@
     'SchoolPics/School5.png',
     'SchoolPics/School6.png',
     'SchoolPics/School7.png',
-    'SchoolPics/School8.png'
+    'SchoolPics/School8.png',
+    'SchoolPics/School9.png',
+    'BusPictures/Bus1.png',
+    'BusPictures/Bus2.png',
+    'BusPictures/Bus3.png',
+    'BusPictures/Bus4.png',
+    'BusPictures/Bus5.png',
+    'BusPictures/Bus6.png',
+    'BusPictures/Bus7.png',
+    'BusPictures/Bus8.png',
+    'BusPictures/Bus9.png',
+    'BusPictures/Bus10.png',
+    'BusPictures/Bus11.png',
+    'BusPictures/Bus12.png',
+    'BusPictures/Bus13.png',
+    'BusPictures/Bus14.png',
+    'BusPictures/Bus15.png',
+    'BusPictures/Bus16.png',
+    'BusPictures/Bus17.png',
+    'BusPictures/Bus18.png',
+    'BusPictures/Bus19.png',
+    'BusPictures/Bus20.png',
+    'End_1.png',
+    'End_2.png',
+    'End_3.png',
+  ];
+
+  const autoPlaySlides = [
+    'RoomPictures/Transition1_1.jpg',
+    'RoomPictures/Transition1_2.jpg',
+    'RoomPictures/Transition2_1.png',
+    'RoomPictures/Transition2_2.png',
+    'RoomPictures/Transition2_3.png',
+    'RoomPictures/Transition2_4.png',
+    'CafePictures/Transition3_4.png',
+    'CafePictures/Transition3_5.png',
+    'CafePictures/Transition3_6.png',
+    'CafePictures/Transition3_7.png',
+    'SchoolPics/School_Transition1.png',
+    'SchoolPics/School_Transition2.png',
+    'SchoolPics/School_Transition3.png',
+    'SchoolPics/School_Transition4.png',
+    'BusPictures/Bus_Transition1.png',
+    'BusPictures/Bus_Transition2.png',
+    'BusPictures/Bus_Transition3.png',
+    'BusPictures/Bus_Transition4.png',
+  ];
+
+  const slideText = {
+    'RoomPictures/Room1.png': "Ugh. I have class today. Im so tired.",
+    'RoomPictures/Room4.png': "I wonder if anyone saw my post...",
+    'CafePictures/Cafe4.png': "(Barista) Hey there! How is your day going?",
+    'CafePictures/Cafe5.png': "Just get me a large coffee with 3 vanilla.",
+    'CafePictures/Cafe6.png': "(Barista) Okay then, I will get that right out for you!",
+    'CafePictures/Cafe8.png': "(Barista) Here you go!",
+    'CafePictures/Cafe9.png': "(Barista) I hope some coffee makes your day better!",
+    'SchoolPics/School4.png': "(Classmate) Hey dude, I'm starting a study group for this class, you should join!",
+    'SchoolPics/School5.png': "(Classmate) Its pretty chill.",
+    'SchoolPics/School7.png': "Thats not my sort of thing really..",
+    'BusPictures/Bus7.png': "Hey, mind if I sit here?",
+    'BusPictures/Bus8.png': "(Girl) Its open, I don't mind.",
+    'BusPictures/Bus10.png': "Hey uhm,",
+    'BusPictures/Bus11.png': "Would I be able to get your number?",
+    'BusPictures/Bus12.png': "(Girl) Oh, I'm sorry, I'm not really looking to date anyone right now.",
+  };
+
+  const slidePopups = {
+    'RoomPictures/Room5.png': 'PopUp/1.png',
+    'CafePictures/Cafe2.png': 'PopUp/2.png',
+    'CafePictures/Cafe5.png': 'PopUp/3.png',
+    'CafePictures/Cafe9.png': 'PopUp/4.png',
+    'CafePictures/Cafe13.png': 'PopUp/5.png',
+    'SchoolPics/School3.png': 'PopUp/6.png',
+    'SchoolPics/School5.png': 'PopUp/7.png',
+    'SchoolPics/School7.png': 'PopUp/8.png',
+    'schoolPics/School9.png': 'PopUp/9.png',
+    'BusPictures/Bus3.png': 'PopUp/10.png',
+    'BusPictures/Bus7.png': 'PopUp/11.png',
+    'BusPictures/Bus12.png': 'PopUp/12.png',
+    'BusPictures/Bus15.png': 'PopUp/13.png',
+    'BusPictures/Bus16.png': 'PopUp/14.png',
+    'BusPictures/Bus17.png': 'PopUp/15.png',
+    'BusPictures/Bus18.png': 'PopUp/16.png',
+    'BusPictures/Bus20.png': 'PopUp/17.png',
+  };
+
+  const popupImages = [
+    'PopUp/1.png',
+    'PopUp/2.png',
+    'PopUp/3.png',
+    'PopUp/4.png',
+    'PopUp/5.png',
+    'PopUp/6.png',
+    'PopUp/7.png',
+    'PopUp/8.png',
+    'PopUp/9.png',
+    'PopUp/10.png',
+    'PopUp/11.png',
+    'PopUp/12.png',
+    'PopUp/13.png',
+    'PopUp/14.png',
+    'PopUp/15.png',
+    'PopUp/16.png',
+    'PopUp/17.png',
   ];
 
   let currentImageIndex = 0;
+  let autoAdvanceTimer = null;
+  let typewriterInterval = null;
   const roomImage = document.getElementById('roomImage');
-  const overlayImage = document.getElementById('overlayImage');
   const instructions = document.getElementById('instructions');
+  const typewriterText = document.getElementById('typewriterText');
+  const popupContainer = document.getElementById('popupContainer');
+
+  function typeWriter(text, element, speed = 50) {
+    if (typewriterInterval) {
+      clearInterval(typewriterInterval);
+    }
+    
+    element.textContent = '';
+    element.classList.add('visible');
+    
+    let i = 0;
+    typewriterInterval = setInterval(() => {
+      if (i < text.length) {
+        element.textContent += text.charAt(i);
+        i++;
+      } else {
+        clearInterval(typewriterInterval);
+        typewriterInterval = null;
+      }
+    }, speed);
+  }
+
+  function removeAllPopupsExcept(keepPath) {
+    const popups = Array.from(popupContainer.querySelectorAll('img'));
+    popups.forEach(img => {
+      if (keepPath && img.src.includes(keepPath)) {
+        return;
+      }
+      img.remove();
+    });
+  }
+
+  function showSlideText() {
+    const currentSlide = slides[currentImageIndex];
+    
+    if (slideText[currentSlide]) {
+      typeWriter(slideText[currentSlide], typewriterText, 50);
+    } else {
+      typewriterText.classList.remove('visible');
+      if (typewriterInterval) {
+        clearInterval(typewriterInterval);
+        typewriterInterval = null;
+      }
+    }
+
+    if (currentSlide === 'BusPictures/Bus20.png') {
+      removeAllPopupsExcept('PopUp/17.png');
+    }
+
+    if (currentSlide === 'End_1.png') {
+      removeAllPopupsExcept();
+    }
+
+    const popupSrc = slidePopups[currentSlide];
+    if (popupSrc) {
+      showSlidePopup(popupSrc);
+    }
+  }
+
+  function advanceSlide() {
+    if (currentImageIndex >= slides.length - 1) {
+      return;
+    }
+
+    currentImageIndex += 1;
+    roomImage.src = slides[currentImageIndex];
+
+    showSlideText();
+    checkAutoAdvance();
+  }
+
+  function checkAutoAdvance() {
+    if (autoAdvanceTimer) {
+      clearTimeout(autoAdvanceTimer);
+      autoAdvanceTimer = null;
+    }
+
+    const currentSlide = slides[currentImageIndex];
+    
+    if (autoPlaySlides.includes(currentSlide)) {
+      autoAdvanceTimer = setTimeout(() => {
+        advanceSlide();
+      }, 1000);
+    }
+  }
+
+  function createPopupImage(src) {
+    const popupImg = document.createElement('img');
+    popupImg.src = src;
+    
+    const effectiveWidth = 300 * 1.5;
+    const effectiveHeight = 200 * 1.5;
+    const maxX = Math.max(0, window.innerWidth - effectiveWidth - 20);
+    const maxY = Math.max(0, window.innerHeight - effectiveHeight - 20);
+    const randomX = Math.random() * maxX;
+    const randomY = Math.random() * maxY;
+    
+    popupImg.style.left = randomX + 'px';
+    popupImg.style.top = randomY + 'px';
+    
+    popupImg.onclick = function(event) {
+      event.stopPropagation();
+      popupImg.remove();
+    };
+    
+    popupContainer.appendChild(popupImg);
+  }
+
+  function showSlidePopup(popupImageSrc) {
+    createPopupImage(popupImageSrc);
+  }
 
   document.addEventListener('keydown', function(event) {
     if (event.code !== 'Space') {
@@ -123,17 +384,16 @@
 
     event.preventDefault();
 
-    if (currentImageIndex >= slides.length - 1) {
+    const currentSlide = slides[currentImageIndex];
+    if (autoPlaySlides.includes(currentSlide) && autoAdvanceTimer) {
       return;
     }
 
-    currentImageIndex += 1;
-    roomImage.src = slides[currentImageIndex];
-
-    if (currentImageIndex >= 7) {
-      overlayImage.classList.remove('hidden');
-    }
+    advanceSlide();
   });
+
+  checkAutoAdvance();
+  showSlideText();
 </script>
 </body>
 </html>
