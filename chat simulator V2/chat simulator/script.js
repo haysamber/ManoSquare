@@ -173,8 +173,8 @@ function showChoices(node) {
 }
 
 /* FLOW */
-function showNode(index) {
-  const node = dialogue[index];
+function showNode(index2) {
+  const node = dialogue[index2];
 
   showTyping();
 

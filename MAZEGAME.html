@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,182 +9,229 @@
 </head>
 <body>
 
-<nav>
-  <ul>
-    <li><a href="Maze.html">EXIT</a></li>
-  </ul>
-</nav>
+<header class="topbar playing">
+  <div class="nav-left">
+    <button id="homeBtn" class="brand" type="button" title="Return to menu">ManoSquare Maze</button>
+  </div>
+  <div class="nav-right">
+    <button id="fullscreenBtn" class="control-btn" type="button" title="Toggle fullscreen">⛶</button>
+    <button id="closeBtn" class="control-btn" type="button" title="Exit game">×</button>
+  </div>
+</header>
+
+<div id="loadingBar">
+  <div id="loadingBarEmpty">
+    <div id="loadingBarFull"></div>
+  </div>
+</div>
+<div id="warningBanner"></div>
 
 <div id="gameContainer">
   <div id="camera">
-    <div id="maze"></div>
+    <div id="world">
+      <div id="topRow" class="row"></div>
+      <div id="middleRow" class="row"></div>
+      <div id="bottomRow" class="row"></div>
+    </div>
     <div id="player"></div>
   </div>
 </div>
 
-<div id="instructions">
-  <p>Use <strong>Arrow Keys</strong> or <strong>WASD</strong> to move.</p>
-  <p>Navigate right to reach the green goal!</p>
-</div>
-
 <footer>
-  Copyright &copy; 2026 - ManoSquare Project
+  <div id="buildTitle">Maze Collage</div>
 </footer>
 
 <script>
-  // Maze layout: 0 = path, 1-4 = different wall types
-  // Simple horizontal maze (Flappy Bird style)
-  const mazeLayout = [
-    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+  const screenshotFiles = [
+    'HorizontalWall2.png',
+    'horizontalWall3.png',
+    'horizontalWall4.png',
+    'horizontalWall6.png',
+    'horizontalWall7.png',
+    'Screenshot 2026-02-26 164550.png',
+    'Screenshot 2026-02-26 164602.png',
+    'Screenshot 2026-03-05 171025.png',
+    'Screenshot 2026-04-21 160319.png',
+    'Screenshot 2026-04-30 002433.png',
+    'Screenshot 2026-04-30 003937.png',
+    'Screenshot 2026-04-30 005530.png',
+    'Screenshot 2026-04-30 095832.png',
+    'Screenshot 2026-04-30 095838.png',
+    'Screenshot 2026-04-30 100032.png',
+    'Screenshot 2026-04-30 100206.png',
+    'Screenshot 2026-04-30 232622.png',
+    'Screenshot 2026-04-30 232847.png',
+    'Screenshot 2026-04-30 232901.png',
+    'Screenshot 2026-04-30 233523.png',
+    'Screenshot 2026-04-30 234222.png',
+    'Screenshot 2026-04-30 234235.png',
+    'Screenshot 2026-04-30 234307.png',
+    'Screenshot 2026-04-30 234315.png',
+    'Screenshot 2026-04-30 234831.png',
+    'Screenshot 2026-04-30 234914.png',
+    'Screenshot 2026-04-30 235822.png',
+    'Screenshot 2026-05-01 003853.png',
+    'Screenshot 2026-05-01 004345.png',
+    'Screenshot 2026-05-01 004534.png',
+    'Screenshot 2026-05-01 004823.png',
+    'Screenshot 2026-05-01 004856.png',
+    'Screenshot 2026-05-01 005644.png',
+    'Screenshot 2026-05-01 005707.png',
+    'Screenshot 2026-05-01 005805.png',
+    'Screenshot 2026-05-01 005925.png',
+    'Screenshot 2026-05-01 011254.png',
+    'Screenshot 2026-05-01 011342.png',
+    'Screenshot 2026-05-01 011458.png'
   ];
 
-  // ============================================================
-  // ADD YOUR WALL IMAGES HERE - Enter filenames in the quotes
-  // ============================================================
-  // Example: 'screenshot1.png' (place files in the same folder as this HTML file)
-  // ============================================================
-  
-  const wallImages = {
-    1: '',  // TODO: Add image filename for wall type 1, e.g., 'image1.png'
-    2: '',  // TODO: Add image filename for wall type 2, e.g., 'image2.png'
-    3: '',  // TODO: Add image filename for wall type 3, e.g., 'image3.png'
-    4: ''   // TODO: Add image filename for wall type 4, e.g., 'image4.png'
+const camera = document.getElementById('camera');
+const world = document.getElementById('world');
+const player = document.getElementById('player');
+
+let playerY = 200;
+let playerX = 200;
+const speed = 6;
+const keys = {};
+
+let obstacles = [];
+let gameSpeed = 3;
+let currentLane = 1;
+
+let furthestObstacleX = 0;
+
+const usedImages = [...screenshotFiles].sort(() => Math.random() - 0.5);
+let imgIndex = 0;
+
+function getNextImage() {
+  const img = usedImages[imgIndex % usedImages.length];
+  imgIndex++;
+  return img;
+}
+
+function createObstacle(x, gapLane) {
+ 
+
+  const lanesY = [
+    60,
+    camera.clientHeight / 2 - 100,
+    camera.clientHeight - 220
+  ];
+
+  for (let lane = 0; lane < 3; lane++) {
+    if (lane === gapLane) continue;
+
+    const img = document.createElement('img');
+    img.src = `MazeScreenshots/${encodeURI(getNextImage())}`;
+    img.className = 'wallImage';
+
+    img.style.position = 'absolute';
+    img.style.left = x + 'px';
+    img.style.top = lanesY[lane] + 'px';
+
+    world.appendChild(img);
+
+
+    img.onload = () => {
+  obstacles.push({
+    el: img,
+    y: lanesY[lane],
+    width: img.offsetWidth,
+    height: img.offsetHeight
+  });
+};
+  }
+
+}
+
+function loadLevel() {
+  let x = 300;
+  let currentLane = 1;
+
+  screenshotFiles.forEach(() => {
+    
+    const change = Math.floor(Math.random() * 3) - 1;
+    currentLane = Math.max(0, Math.min(2, currentLane + change));
+
+    createObstacle(x, currentLane);
+
+    x += 260;
+  });
+}
+
+function isColliding(x, y) {
+  const size = 36;
+
+  const playerRect = {
+    left: x,
+    right: x + size,
+    top: y,
+    bottom: y + size
   };
 
-  // Player position
-  let playerX = 1;
-  let playerY = 1;
-  const cellSize = 40;
+  return obstacles.some(obs => {
+    const rect = obs.el.getBoundingClientRect();
+    const camRect = camera.getBoundingClientRect();
 
-  // Goal position (far right of horizontal maze)
-  const goalX = 28;
-  const goalY = 1;
+    const wall = {
+      left: rect.left - camRect.left + playerX - camera.clientWidth / 2,
+      right: rect.right - camRect.left + playerX - camera.clientWidth / 2,
+      top: rect.top - camRect.top,
+      bottom: rect.bottom - camRect.top
+    };
 
-  function initMaze() {
-    const maze = document.getElementById('maze');
-    maze.innerHTML = '';
-    maze.style.width = mazeLayout[0].length * cellSize + 'px';
-    maze.style.height = mazeLayout.length * cellSize + 'px';
+    return !(
+      playerRect.right < wall.left ||
+      playerRect.left > wall.right ||
+      playerRect.bottom < wall.top ||
+      playerRect.top > wall.bottom
+    );
+  });
+}
 
-    for (let y = 0; y < mazeLayout.length; y++) {
-      for (let x = 0; x < mazeLayout[y].length; x++) {
-        const cell = document.createElement('div');
-        cell.className = 'cell';
-        cell.style.left = x * cellSize + 'px';
-        cell.style.top = y * cellSize + 'px';
-        cell.style.width = cellSize + 'px';
-        cell.style.height = cellSize + 'px';
+function gameLoop() {
+  updatePlayer();
+  updateCamera();
+  requestAnimationFrame(gameLoop);
+}
 
-        const cellType = mazeLayout[y][x];
-        
-        if (cellType === 0) {
-          cell.classList.add('path');
-        } else if (cellType >= 1 && cellType <= 4) {
-          cell.classList.add('wall');
-          cell.classList.add('wall-' + cellType);
-          
-          // Apply custom image if set
-          if (wallImages[cellType]) {
-            cell.style.backgroundImage = `url('${wallImages[cellType]}')`;
-            cell.style.backgroundSize = 'cover';
-            cell.style.backgroundPosition = 'center';
-            cell.style.backgroundRepeat = 'no-repeat';
-          }
-        }
+function updateCamera() {
+  const center = camera.clientWidth / 2;
 
-        // Goal
-        if (x === goalX && y === goalY) {
-          cell.classList.add('goal');
-        }
+  player.style.left = center + 'px';
+  const offsetX = -playerX + center;
+  world.style.left = offsetX + 'px';
+}
 
-        maze.appendChild(cell);
-      }
-    }
+document.addEventListener('keydown', (e) => {
+  keys[e.key.toLowerCase()] = true;
+});
 
-    updatePlayerPosition();
-  }
+document.addEventListener('keyup', (e) => {
+  keys[e.key.toLowerCase()] = false;
+});
 
-  function updatePlayerPosition() {
-    const player = document.getElementById('player');
-    const camera = document.getElementById('camera');
-    const maze = document.getElementById('maze');
-    
-    player.style.left = playerX * cellSize + 'px';
-    player.style.top = playerY * cellSize + 'px';
-    
-    // Move camera to center on player
-    const cameraWidth = camera.offsetWidth;
-    const cameraHeight = camera.offsetHeight;
-    const offsetX = (cameraWidth / 2) - (cellSize / 2);
-    const offsetY = (cameraHeight / 2) - (cellSize / 2);
-    
-    const newMazeX = -(playerX * cellSize) + offsetX;
-    const newMazeY = -(playerY * cellSize) + offsetY;
-    
-    maze.style.left = newMazeX + 'px';
-    maze.style.top = newMazeY + 'px';
-  }
+function updatePlayer() {
+  let newX = playerX;
+  let newY = playerY;
 
-  function movePlayer(dx, dy) {
-    const newX = playerX + dx;
-    const newY = playerY + dy;
+  if (keys['arrowleft'] || keys['a']) newX -= speed;
+  if (keys['arrowright'] || keys['d']) newX += speed;
+  if (keys['arrowup'] || keys['w']) newY -= speed;
+  if (keys['arrowdown'] || keys['s']) newY += speed;
 
-    // Check bounds
-    if (newX < 0 || newX >= mazeLayout[0].length || newY < 0 || newY >= mazeLayout.length) {
-      return;
-    }
+  newY = Math.max(0, Math.min(camera.clientHeight - 40, newY));
 
-    // Check if wall
-    if (mazeLayout[newY][newX] !== 0) {
-      return;
-    }
-
+  if (!isColliding(newX, newY)) {
     playerX = newX;
     playerY = newY;
-    updatePlayerPosition();
-
-    // Check win
-    if (playerX === goalX && playerY === goalY) {
-      setTimeout(() => {
-        alert('You escaped the maze! 🎉');
-        playerX = 1;
-        playerY = 1;
-        updatePlayerPosition();
-      }, 100);
-    }
   }
 
-  // Keyboard controls
-  document.addEventListener('keydown', (e) => {
-    switch(e.key) {
-      case 'ArrowUp':
-      case 'w':
-      case 'W':
-        movePlayer(0, -1);
-        break;
-      case 'ArrowDown':
-      case 's':
-      case 'S':
-        movePlayer(0, 1);
-        break;
-      case 'ArrowLeft':
-      case 'a':
-      case 'A':
-        movePlayer(-1, 0);
-        break;
-      case 'ArrowRight':
-      case 'd':
-      case 'D':
-        movePlayer(1, 0);
-        break;
-    }
-  });
+  player.style.top = playerY + 'px';
 
-  // Initialize
-  initMaze();
+}
+
+loadLevel();
+gameLoop();
 </script>
-
 </body>
 </html>
