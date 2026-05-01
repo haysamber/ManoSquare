@@ -79,7 +79,7 @@
       position: absolute;
       max-width: 300px;
       max-height: 200px;
-      transform: scale(1.5);
+      transform: scale(2);
       transform-origin: top left;
       object-fit: contain;
       border: 2px solid #fff;
@@ -228,15 +228,19 @@
     'SchoolPics/School3.png': 'PopUp/6.png',
     'SchoolPics/School5.png': 'PopUp/7.png',
     'SchoolPics/School7.png': 'PopUp/8.png',
-    'schoolPics/School9.png': 'PopUp/9.png',
+    'SchoolPics/School8.png': 'PopUp/20.png',
+    'SchoolPics/School9.png': 'PopUp/9.png',
     'BusPictures/Bus3.png': 'PopUp/10.png',
+    'BusPictures/Bus5.png': 'PopUp/17.png',
     'BusPictures/Bus7.png': 'PopUp/11.png',
+    'BusPictures/Bus9.png': 'PopUp/18.png',
     'BusPictures/Bus12.png': 'PopUp/12.png',
     'BusPictures/Bus15.png': 'PopUp/13.png',
     'BusPictures/Bus16.png': 'PopUp/14.png',
     'BusPictures/Bus17.png': 'PopUp/15.png',
     'BusPictures/Bus18.png': 'PopUp/16.png',
-    'BusPictures/Bus20.png': 'PopUp/17.png',
+    'BusPictures/Bus19.png': 'PopUp/19.png',
+    'BusPictures/Bus20.png': 'PopUp/21.png',
   };
 
   const popupImages = [
@@ -257,6 +261,10 @@
     'PopUp/15.png',
     'PopUp/16.png',
     'PopUp/17.png',
+    'PopUp/18.png',
+    'PopUp/19.png',
+    'PopUp/20.png',
+    'PopUp/21.png',
   ];
 
   let currentImageIndex = 0;
@@ -311,7 +319,7 @@
     }
 
     if (currentSlide === 'BusPictures/Bus20.png') {
-      removeAllPopupsExcept('PopUp/17.png');
+      removeAllPopupsExcept('PopUp/21.png');
     }
 
     if (currentSlide === 'End_1.png') {
@@ -355,8 +363,8 @@
     const popupImg = document.createElement('img');
     popupImg.src = src;
     
-    const effectiveWidth = 300 * 1.5;
-    const effectiveHeight = 200 * 1.5;
+    const effectiveWidth = 300 * 2;
+    const effectiveHeight = 200 * 2;
     const maxX = Math.max(0, window.innerWidth - effectiveWidth - 20);
     const maxY = Math.max(0, window.innerHeight - effectiveHeight - 20);
     const randomX = Math.random() * maxX;
