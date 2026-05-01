@@ -11,7 +11,7 @@ nav a:hover { background: #e0e7ff; border-color: #e0e7ff; }
 .hero { min-height: 220px; background: linear-gradient(350deg, #FB4300, #7B00FF); margin-bottom: 18px; border-radius: 8px; display: flex; align-items: center; justify-content: center; }
 .hero-content { display: flex; gap: 16px; justify-content: center; align-items: flex-end; width: 100%; padding: 14px; flex-wrap: nowrap; }
 .hero-square { flex: 1; max-width: 200px; min-height: 120px; background: rgba(255,255,255,0.15); border: 2px solid rgba(255,255,255,0.35); border-radius: 12px; color: #fff; text-align: center; font-weight: 700; text-decoration: none; display: flex; align-items: center; justify-content: center; transition: transform 0.2s, background 0.2s; }
-.hero-center { align-self: flex-start; }
+.hero-center { align-self: flex-start; transform: translateY(-20px); }
 .hero-square:hover { background: rgba(255,255,255,0.35); transform: translateY(-4px); }
 main h2 { margin-bottom: 12px; color: #FB4300; }
 main p { margin-bottom: 12px; color: #e0e7ff; }
