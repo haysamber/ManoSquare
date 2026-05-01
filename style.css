@@ -9,8 +9,9 @@ nav ul { display: flex; gap: 12px; list-style: none; flex-wrap: wrap; }
 nav a { color: #FB4300; text-decoration: none; padding: 8px 10px; border-radius: 6px; border: 1px solid transparent; }
 nav a:hover { background: #e0e7ff; border-color: #e0e7ff; }
 .hero { min-height: 220px; background: linear-gradient(350deg, #FB4300, #7B00FF); margin-bottom: 18px; border-radius: 8px; display: flex; align-items: center; justify-content: center; }
-.hero-content { display: flex; gap: 16px; justify-content: center; width: 100%; padding: 14px; }
+.hero-content { display: flex; gap: 16px; justify-content: center; align-items: flex-end; width: 100%; padding: 14px; flex-wrap: nowrap; }
 .hero-square { flex: 1; max-width: 200px; min-height: 120px; background: rgba(255,255,255,0.15); border: 2px solid rgba(255,255,255,0.35); border-radius: 12px; color: #fff; text-align: center; font-weight: 700; text-decoration: none; display: flex; align-items: center; justify-content: center; transition: transform 0.2s, background 0.2s; }
+.hero-center { align-self: flex-start; }
 .hero-square:hover { background: rgba(255,255,255,0.35); transform: translateY(-4px); }
 main h2 { margin-bottom: 12px; color: #FB4300; }
 main p { margin-bottom: 12px; color: #e0e7ff; }
@@ -18,7 +19,7 @@ h4 { text-align: center; color: #e0e7ff; }
 h3 { text-align: center; color: #e0e7ff; }
 h2 { text-align: center; color: #e0e7ff; }
 
-#contact { margin-top: 14px; padding: 12px; background: #e0e7ff; border: 1px dashed #FB4300; border-radius: 6px;}
+#contact { margin-top: 14px; padding: 12px; background: #e7e7e7; border: 1px dashed #FB4300; border-radius: 6px;}
 footer { background: #e0e7ff; font-size: .9rem; color: #2A14CF; margin-top: 12px; }
 footer a { color: #000; text-decoration: none; margin-right: 12px; }
 .resort { font-weight: 700; color: #0f172a; }
