@@ -33,6 +33,12 @@
   </div>
 </div>
 
+<div id="joystickContainer">
+  <div id="joystickBase">
+    <div id="joystickKnob"></div>
+  </div>
+</div>
+
 <script>
   const screenshotFiles = [
     'HorizontalWall2.png',
@@ -79,11 +85,15 @@
 const camera = document.getElementById('camera');
 const world = document.getElementById('world');
 const player = document.getElementById('player');
+const joystickBase = document.getElementById('joystickBase');
+const joystickKnob = document.getElementById('joystickKnob');
 
 let playerY = 0;
 let playerX = 0;
 const speed = 6;
 const keys = {};
+let joystickActive = false;
+let joystickVector = { x: 0, y: 0 };
 
 let obstacles = [];
 let gameSpeed = 3;
@@ -194,6 +204,59 @@ function updateCamera() {
   world.style.left = offsetX + 'px';
 }
 
+function setJoystickVector(x, y) {
+  const length = Math.hypot(x, y);
+  if (length < 1) {
+    joystickVector = { x: 0, y: 0 };
+    return;
+  }
+  joystickVector = { x: x / length, y: y / length };
+}
+
+function updateJoystick(event) {
+  const rect = joystickBase.getBoundingClientRect();
+  const centerX = rect.left + rect.width / 2;
+  const centerY = rect.top + rect.height / 2;
+  const dx = event.clientX - centerX;
+  const dy = event.clientY - centerY;
+  const maxDistance = rect.width / 2 - 18;
+  const distance = Math.min(Math.hypot(dx, dy), maxDistance);
+  const angleX = distance > 0 ? dx / distance : 0;
+  const angleY = distance > 0 ? dy / distance : 0;
+  const knobX = angleX * distance;
+  const knobY = angleY * distance;
+
+  setJoystickVector(knobX, knobY);
+  joystickKnob.style.transform = `translate(calc(-50% + ${Math.round(knobX)}px), calc(-50% + ${Math.round(knobY)}px))`;
+}
+
+function resetJoystick() {
+  joystickActive = false;
+  joystickVector = { x: 0, y: 0 };
+  joystickKnob.style.transform = 'translate(-50%, -50%)';
+}
+
+joystickBase.addEventListener('pointerdown', (event) => {
+  joystickActive = true;
+  joystickBase.setPointerCapture(event.pointerId);
+  updateJoystick(event);
+});
+
+window.addEventListener('pointermove', (event) => {
+  if (!joystickActive) return;
+  if (event.pointerType === 'mouse') return;
+  updateJoystick(event);
+});
+
+window.addEventListener('pointerup', (event) => {
+  if (!joystickActive) return;
+  resetJoystick();
+});
+
+window.addEventListener('pointercancel', () => {
+  resetJoystick();
+});
+
 document.addEventListener('keydown', (e) => {
   keys[e.key.toLowerCase()] = true;
 });
@@ -205,12 +268,21 @@ document.addEventListener('keyup', (e) => {
 function updatePlayer() {
   let newX = playerX;
   let newY = playerY;
+  let movementX = 0;
+  let movementY = 0;
 
-  if (keys['arrowleft'] || keys['a']) newX -= speed;
-  if (keys['arrowright'] || keys['d']) newX += speed;
-  if (keys['arrowup'] || keys['w']) newY -= speed;
-  if (keys['arrowdown'] || keys['s']) newY += speed;
+  if (keys['arrowleft'] || keys['a']) movementX -= speed;
+  if (keys['arrowright'] || keys['d']) movementX += speed;
+  if (keys['arrowup'] || keys['w']) movementY -= speed;
+  if (keys['arrowdown'] || keys['s']) movementY += speed;
 
+  if (joystickActive) {
+    movementX += joystickVector.x * speed;
+    movementY += joystickVector.y * speed;
+  }
+
+  newX += movementX;
+  newY += movementY;
   newY = Math.max(0, Math.min(camera.clientHeight - 40, newY));
 
   if (!isColliding(newX, newY)) {
@@ -219,7 +291,6 @@ function updatePlayer() {
   }
 
   player.style.top = playerY + 'px';
-
 }
 
 loadLevel();

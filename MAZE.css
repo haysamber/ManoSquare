@@ -18,7 +18,6 @@ header.topbar {
   z-index: 50;
 }
 
-
 .brand,
 .nav-arrow,
 .control-btn {
@@ -43,25 +42,15 @@ header.topbar {
   opacity: 0.35;
   cursor: default;
 }
-  height: 26%;
-.nav-title {
-  color: #fff;
-  font-size: 1rem;
-  top: 2vh;
-  white-space: nowrap;
-}
 
-  top: 50%;
-  transform: translateY(-50%);
-  height: 40vh;
 #gameContainer {
   position: absolute;
   top: 56px;
-  bottom: 2vh;
+  left: 0;
   right: 0;
   bottom: 42px;
   background: #070911;
-  max-height: 30vh;
+  overflow: hidden;
 }
 
 #camera {
@@ -72,13 +61,13 @@ header.topbar {
   top: 0;
   overflow: hidden;
 }
-  width: 4vmin;
-  height: 4vmin;
-  background: #FB4300;
-  border: 0.6vmin solid #7B00FF;
-  border-radius: 50%;
-  z-index: 20;
-  pointer-events: none;
+
+#world {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+}
 
 .row {
   position: absolute;
@@ -89,29 +78,21 @@ header.topbar {
 }
 
 #topRow {
-  top: 20px;
+  top: 2vh;
 }
 
-/* Make small-screen adjustments so game scales on mobile */
-@media (max-width: 600px) {
-  header.topbar { height: 48px; padding: 0 12px; }
-  #gameContainer { top: 48px; bottom: 42px; }
-  #middleRow { height: 36vh; }
-  .wallImage { max-height: 28vh; }
-  #player { width: 6vmin; height: 6vmin; border-width: 0.9vmin; }
-  body { overflow: auto; }
-}
 #middleRow {
-  top: calc(50% - 120px);
-  height: 240px;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 40vh;
 }
 
 #bottomRow {
-  bottom: 20px;
+  bottom: 2vh;
 }
 
 .wallImage {
-  max-height: 220px;
+  max-height: 30vh;
   width: auto;
   height: auto;
   object-fit: contain;
@@ -122,10 +103,10 @@ header.topbar {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  width: 30px;
-  height: 30px;
+  width: 4vmin;
+  height: 4vmin;
   background: #FB4300;
-  border: 3px solid #7B00FF;
+  border: 0.6vmin solid #7B00FF;
   border-radius: 50%;
   z-index: 20;
   pointer-events: none;
@@ -145,4 +126,52 @@ nav ul,
 nav a,
 nav a:hover {
   display: none !important;
+}
+
+#joystickContainer {
+  display: none;
+  position: fixed;
+  right: 14px;
+  bottom: 14px;
+  width: 120px;
+  height: 120px;
+  z-index: 60;
+  touch-action: none;
+}
+
+#joystickBase {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  border: 2px solid rgba(255, 255, 255, 0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+}
+
+#joystickKnob {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(251, 67, 0, 0.95);
+  border: 2px solid rgba(255, 255, 255, 0.85);
+  transform: translate(-50%, -50%);
+  transition: transform 0.08s ease-out;
+  pointer-events: none;
+}
+
+@media (max-width: 600px) {
+  header.topbar { height: 48px; padding: 0 12px; }
+  #gameContainer { top: 48px; bottom: 42px; }
+  #middleRow { height: 36vh; }
+  .wallImage { max-height: 28vh; }
+  #player { width: 6vmin; height: 6vmin; border-width: 0.9vmin; }
+  body { overflow: auto; }
+  #joystickContainer { display: block; width: 108px; height: 108px; right: 12px; bottom: 12px; }
+  #joystickKnob { width: 36px; height: 36px; }
 }
