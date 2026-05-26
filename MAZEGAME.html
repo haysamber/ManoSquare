@@ -97,6 +97,7 @@ let joystickActive = false;
 let joystickVector = { x: 0, y: 0 };
 
 let obstacles = [];
+let maxObstacleX = 0;
 let gameSpeed = 3;
 let currentLane = 1;
 
@@ -133,15 +134,16 @@ function createObstacle(x, gapLane) {
 
     world.appendChild(img);
 
+    maxObstacleX = Math.max(maxObstacleX, x);
 
     img.onload = () => {
-  obstacles.push({
-    el: img,
-    y: lanesY[lane],
-    width: img.offsetWidth,
-    height: img.offsetHeight
-  });
-};
+      obstacles.push({
+        el: img,
+        y: lanesY[lane],
+        width: img.offsetWidth,
+        height: img.offsetHeight
+      });
+    };
   }
 
 }
@@ -203,6 +205,13 @@ function updateCamera() {
   player.style.left = center + 'px';
   const offsetX = -playerX + center;
   world.style.left = offsetX + 'px';
+}
+
+function clampPlayerX(x) {
+  const center = camera.clientWidth / 2;
+  const minX = center;
+  const maxX = Math.max(center, maxObstacleX - center);
+  return Math.min(Math.max(x, minX), maxX);
 }
 
 function setJoystickVector(x, y) {
@@ -284,7 +293,8 @@ function updatePlayer() {
 
   newX += movementX;
   newY += movementY;
-  newY = Math.max(0, Math.min(camera.clientHeight - 40, newY));
+  newX = clampPlayerX(newX);
+  newY = Math.max(0, Math.min(camera.clientHeight - player.offsetHeight, newY));
 
   if (!isColliding(newX, newY)) {
     playerX = newX;

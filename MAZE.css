@@ -60,6 +60,9 @@ header.topbar {
   left: 0;
   top: 0;
   overflow: hidden;
+  box-sizing: border-box;
+  border: 2px solid rgba(255,255,255,0.9);
+  border-radius: 12px;
 }
 
 #world {
