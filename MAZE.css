@@ -43,24 +43,25 @@ header.topbar {
   opacity: 0.35;
   cursor: default;
 }
-
+  height: 26%;
 .nav-title {
   color: #fff;
   font-size: 1rem;
-  font-weight: 700;
+  top: 2vh;
   white-space: nowrap;
 }
 
-
-
+  top: 50%;
+  transform: translateY(-50%);
+  height: 40vh;
 #gameContainer {
   position: absolute;
   top: 56px;
-  left: 0;
+  bottom: 2vh;
   right: 0;
   bottom: 42px;
   background: #070911;
-  overflow: hidden;
+  max-height: 30vh;
 }
 
 #camera {
@@ -71,13 +72,13 @@ header.topbar {
   top: 0;
   overflow: hidden;
 }
-
-#world {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-}
+  width: 4vmin;
+  height: 4vmin;
+  background: #FB4300;
+  border: 0.6vmin solid #7B00FF;
+  border-radius: 50%;
+  z-index: 20;
+  pointer-events: none;
 
 .row {
   position: absolute;
@@ -91,6 +92,15 @@ header.topbar {
   top: 20px;
 }
 
+/* Make small-screen adjustments so game scales on mobile */
+@media (max-width: 600px) {
+  header.topbar { height: 48px; padding: 0 12px; }
+  #gameContainer { top: 48px; bottom: 42px; }
+  #middleRow { height: 36vh; }
+  .wallImage { max-height: 28vh; }
+  #player { width: 6vmin; height: 6vmin; border-width: 0.9vmin; }
+  body { overflow: auto; }
+}
 #middleRow {
   top: calc(50% - 120px);
   height: 240px;

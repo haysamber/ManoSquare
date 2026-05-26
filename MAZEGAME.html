@@ -80,8 +80,8 @@ const camera = document.getElementById('camera');
 const world = document.getElementById('world');
 const player = document.getElementById('player');
 
-let playerY = 200;
-let playerX = 200;
+let playerY = 0;
+let playerX = 0;
 const speed = 6;
 const keys = {};
 
@@ -224,6 +224,15 @@ function updatePlayer() {
 
 loadLevel();
 gameLoop();
+
+window.addEventListener('load', () => {
+  // initialize player position proportionally to the viewport for small screens
+  playerX = camera.clientWidth / 2;
+  playerY = camera.clientHeight / 2;
+  player.style.top = playerY + 'px';
+  // player left is handled in updateCamera but set to center visually
+  player.style.left = (camera.clientWidth / 2) + 'px';
+});
 </script>
 </body>
 </html>

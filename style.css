@@ -9,8 +9,8 @@ nav ul { display: flex; gap: 12px; list-style: none; flex-wrap: wrap; }
 nav a { color: #FB4300; text-decoration: none; padding: 8px 10px; border-radius: 6px; border: 1px solid transparent; }
 nav a:hover { background: #e0e7ff; border-color: #e0e7ff; }
 .hero { min-height: 240px; background: linear-gradient(350deg, #FB4300, #7B00FF); margin-bottom: 18px; border-radius: 8px; display: flex; align-items: center; justify-content: center; }
-.hero-content { display: flex; gap: 50px; justify-content: center; align-items: flex-end; width: 100%; padding: 14px; flex-wrap: nowrap; }
-.hero-square { flex: 1; max-width: 200px; min-height: 120px; background: rgba(255,255,255,0.15); border: 2px solid rgba(255,255,255,0.35); border-radius: 12px; color: #fff; text-align: center; font-weight: 700; text-decoration: none; display: flex; align-items: center; justify-content: center; transition: transform 0.2s, background 0.2s; }
+.hero-content { display: flex; gap: 24px; justify-content: center; align-items: flex-end; width: 100%; padding: 14px; flex-wrap: wrap; }
+.hero-square { flex: 1 1 140px; max-width: 320px; min-height: 100px; background: rgba(255,255,255,0.15); border: 2px solid rgba(255,255,255,0.35); border-radius: 12px; color: #fff; text-align: center; font-weight: 700; text-decoration: none; display: flex; align-items: center; justify-content: center; transition: transform 0.2s, background 0.2s; }
 .hero-center { align-self: flex-start; transform: translateY(-30px); }
 .hero-square:hover { background: rgba(255,255,255,0.35); transform: translateY(-4px); }
 main h2 { margin-bottom: 12px; color: #FB4300; }
@@ -25,3 +25,21 @@ footer a { color: #000; text-decoration: none; margin-right: 12px; }
 .resort { font-weight: 700; color: #0f172a; }
 li{margin-left:30px; color:#FB4300;}
 #about{ color: #e0e7ff; }
+
+/* Responsive tweaks */
+@media (max-width: 900px) {
+	#wrapper { margin: 0 8px; }
+	header, nav, main, footer { padding: 12px; }
+	header h1 { font-size: 1.4rem; }
+	.hero { min-height: 180px; }
+	.hero-content { gap: 12px; }
+	.hero-center { transform: translateY(-18px); }
+}
+
+@media (max-width: 480px) {
+	body { padding: 6px; }
+	.hero { min-height: 140px; }
+	.hero-content { flex-direction: column; align-items: stretch; }
+	.hero-square { width: 100%; max-width: 100%; min-height: 90px; }
+	nav ul { gap: 6px; }
+}
