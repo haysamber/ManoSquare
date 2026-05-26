@@ -48,7 +48,7 @@ header.topbar {
   top: 56px;
   left: 0;
   right: 0;
-  bottom: 42px;
+  bottom: 0;
   background: #070911;
   overflow: hidden;
 }
@@ -167,11 +167,11 @@ nav a:hover {
 
 @media (max-width: 600px) {
   header.topbar { height: 48px; padding: 0 12px; }
-  #gameContainer { top: 48px; bottom: 42px; }
+  #gameContainer { top: 48px; bottom: 0; }
   #middleRow { height: 36vh; }
   .wallImage { max-height: 28vh; }
   #player { width: 6vmin; height: 6vmin; border-width: 0.9vmin; }
-  body { overflow: auto; }
+  body { overflow: hidden; }
   #joystickContainer { display: block; width: 108px; height: 108px; right: 12px; bottom: 12px; }
   #joystickKnob { width: 36px; height: 36px; }
 }
