@@ -31,15 +31,17 @@ li{margin-left:30px; color:#FB4300;}
 	#wrapper { margin: 0 8px; }
 	header, nav, main, footer { padding: 12px; }
 	header h1 { font-size: 1.4rem; }
-	.hero { min-height: 180px; }
-	.hero-content { gap: 12px; }
+	.hero { min-height: 180px; padding: 8px 0; }
+	.hero-content { gap: 18px; padding: 6px; }
 	.hero-center { transform: translateY(-18px); }
 }
 
 @media (max-width: 480px) {
 	body { padding: 6px; }
 	.hero { min-height: 140px; }
-	.hero-content { flex-direction: column; align-items: stretch; }
+	.hero-content { flex-direction: column; align-items: stretch; gap: 14px; padding: 12px; }
 	.hero-square { width: 100%; max-width: 100%; min-height: 90px; }
+	/* remove lifted center card on narrow screens to avoid overlap */
+	.hero-center { transform: none; align-self: center; }
 	nav ul { gap: 6px; }
 }
