@@ -91,6 +91,7 @@ const joystickKnob = document.getElementById('joystickKnob');
 let playerY = 0;
 let playerX = 0;
 const speed = 6;
+const joystickSensitivity = 0.55;
 const keys = {};
 let joystickActive = false;
 let joystickVector = { x: 0, y: 0 };
@@ -277,8 +278,8 @@ function updatePlayer() {
   if (keys['arrowdown'] || keys['s']) movementY += speed;
 
   if (joystickActive) {
-    movementX += joystickVector.x * speed;
-    movementY += joystickVector.y * speed;
+    movementX += joystickVector.x * speed * joystickSensitivity;
+    movementY += joystickVector.y * speed * joystickSensitivity;
   }
 
   newX += movementX;
