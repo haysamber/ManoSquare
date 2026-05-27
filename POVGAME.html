@@ -37,10 +37,6 @@
         max-height: 100vh;
         object-fit: contain;
       }
-
-      #mobileTitleText {
-        display: block;
-      }
     }
 
     #instructions {
@@ -109,7 +105,6 @@
 
 <body>
 <img id="roomImage" src="DigitalTrash_Title.png" alt="Room">
-<div id="mobileTitleText">Tap the screen to continue</div>
 <div id="typewriterText"></div>
 
 
@@ -126,8 +121,10 @@
 </footer>
 
 <script>
-  const slides = [
-    'DigitalTrash_Title.png',
+  const isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent) || window.matchMedia('(max-width: 600px)').matches;
+  const slides = isMobile ? [
+    'TurnPhone_Mobile.png',
+    'DigitalTrash_Mobile.png',
     'Content_Warning.png',
     'RoomPictures/Transition1_1.jpg',
     'RoomPictures/Transition1_2.jpg',
@@ -290,37 +287,8 @@
   const roomImage = document.getElementById('roomImage');
   const typewriterText = document.getElementById('typewriterText');
   const popupContainer = document.getElementById('popupContainer');
-  const mobileTitleText = document.createElement('div');
-  const titleImage = 'DigitalTrash_Title.png';
 
-  mobileTitleText.id = 'mobileTitleText';
-  mobileTitleText.textContent = 'Tap the screen to continue';
-  mobileTitleText.style.display = 'none';
-  mobileTitleText.style.position = 'fixed';
-  mobileTitleText.style.bottom = '16px';
-  mobileTitleText.style.left = '50%';
-  mobileTitleText.style.transform = 'translateX(-50%)';
-  mobileTitleText.style.zIndex = '20';
-  mobileTitleText.style.color = '#fff';
-  mobileTitleText.style.fontFamily = 'Arial, sans-serif';
-  mobileTitleText.style.fontSize = '16px';
-  mobileTitleText.style.padding = '10px 14px';
-  mobileTitleText.style.background = 'rgba(0,0,0,0.6)';
-  mobileTitleText.style.borderRadius = '8px';
-  mobileTitleText.style.textAlign = 'center';
-  mobileTitleText.style.maxWidth = '90%';
-  document.body.appendChild(mobileTitleText);
-
-  function applyMobileTitleImage() {
-    const isMobile = window.matchMedia('(max-width: 600px)').matches;
-    if (currentImageIndex === 0 && isMobile) {
-      roomImage.src = titleImage;
-      mobileTitleText.style.display = 'block';
-    } else {
-      roomImage.src = slides[currentImageIndex];
-      mobileTitleText.style.display = 'none';
-    }
-  }
+  roomImage.src = slides[0];
 
   function typeWriter(text, element, speed = 50) {
     if (typewriterInterval) {
@@ -353,7 +321,6 @@
   }
 
   function showSlideText() {
-    applyMobileTitleImage();
     const currentSlide = slides[currentImageIndex];
     
     if (slideText[currentSlide]) {
@@ -411,9 +378,7 @@
     const popupImg = document.createElement('img');
     popupImg.src = src;
 
-    // wait until image loads to size and position it responsively
     popupImg.onload = () => {
-      // cap popup size relative to viewport
       const maxW = Math.min(popupImg.naturalWidth, window.innerWidth * 0.6);
       const maxH = Math.min(popupImg.naturalHeight, window.innerHeight * 0.45);
       popupImg.style.maxWidth = maxW + 'px';
@@ -455,10 +420,6 @@
     }
 
     advanceSlide();
-  });
-
-  window.addEventListener('resize', () => {
-    applyMobileTitleImage();
   });
 
   checkAutoAdvance();
