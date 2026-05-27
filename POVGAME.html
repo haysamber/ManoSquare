@@ -25,6 +25,20 @@
       z-index: 1;
     }
 
+    @media (max-width: 600px) {
+      #roomImage {
+        position: fixed;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: auto;
+        height: auto;
+        max-width: 100%;
+        max-height: 100vh;
+        object-fit: contain;
+      }
+    }
+
     #instructions {
       position: fixed;
       bottom: 20px;
@@ -269,9 +283,15 @@
   let autoAdvanceTimer = null;
   let typewriterInterval = null;
   const roomImage = document.getElementById('roomImage');
-  const instructions = document.getElementById('instructions');
   const typewriterText = document.getElementById('typewriterText');
   const popupContainer = document.getElementById('popupContainer');
+  const mobileTitleImage = 'digitaltrash_mobile.png';
+
+  function applyMobileTitleImage() {
+    if (window.matchMedia('(max-width: 600px)').matches && currentImageIndex === 0) {
+      roomImage.src = mobileTitleImage;
+    }
+  }
 
   function typeWriter(text, element, speed = 50) {
     if (typewriterInterval) {
@@ -304,6 +324,7 @@
   }
 
   function showSlideText() {
+    applyMobileTitleImage();
     const currentSlide = slides[currentImageIndex];
     
     if (slideText[currentSlide]) {
@@ -405,6 +426,10 @@
     }
 
     advanceSlide();
+  });
+
+  window.addEventListener('resize', () => {
+    applyMobileTitleImage();
   });
 
   checkAutoAdvance();
