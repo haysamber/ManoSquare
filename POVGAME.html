@@ -37,6 +37,10 @@
         max-height: 100vh;
         object-fit: contain;
       }
+
+      #mobileTitleText {
+        display: block;
+      }
     }
 
     #instructions {
@@ -105,6 +109,7 @@
 
 <body>
 <img id="roomImage" src="DigitalTrash_Title.png" alt="Room">
+<div id="mobileTitleText">Tap the screen to continue</div>
 <div id="typewriterText"></div>
 
 
@@ -285,11 +290,35 @@
   const roomImage = document.getElementById('roomImage');
   const typewriterText = document.getElementById('typewriterText');
   const popupContainer = document.getElementById('popupContainer');
-  const mobileTitleImage = 'digitaltrash_mobile.png';
+  const mobileTitleText = document.createElement('div');
+  const titleImage = 'DigitalTrash_Title.png';
+
+  mobileTitleText.id = 'mobileTitleText';
+  mobileTitleText.textContent = 'Tap the screen to continue';
+  mobileTitleText.style.display = 'none';
+  mobileTitleText.style.position = 'fixed';
+  mobileTitleText.style.bottom = '16px';
+  mobileTitleText.style.left = '50%';
+  mobileTitleText.style.transform = 'translateX(-50%)';
+  mobileTitleText.style.zIndex = '20';
+  mobileTitleText.style.color = '#fff';
+  mobileTitleText.style.fontFamily = 'Arial, sans-serif';
+  mobileTitleText.style.fontSize = '16px';
+  mobileTitleText.style.padding = '10px 14px';
+  mobileTitleText.style.background = 'rgba(0,0,0,0.6)';
+  mobileTitleText.style.borderRadius = '8px';
+  mobileTitleText.style.textAlign = 'center';
+  mobileTitleText.style.maxWidth = '90%';
+  document.body.appendChild(mobileTitleText);
 
   function applyMobileTitleImage() {
-    if (window.matchMedia('(max-width: 600px)').matches && currentImageIndex === 0) {
-      roomImage.src = mobileTitleImage;
+    const isMobile = window.matchMedia('(max-width: 600px)').matches;
+    if (currentImageIndex === 0 && isMobile) {
+      roomImage.src = titleImage;
+      mobileTitleText.style.display = 'block';
+    } else {
+      roomImage.src = slides[currentImageIndex];
+      mobileTitleText.style.display = 'none';
     }
   }
 
