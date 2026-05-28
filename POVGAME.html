@@ -422,6 +422,21 @@
     advanceSlide();
   });
 
+  if (isMobile) {
+    roomImage.addEventListener('pointerdown', function(event) {
+      if (event.pointerType !== 'touch') {
+        return;
+      }
+
+      const currentSlide = slides[currentImageIndex];
+      if (autoPlaySlides.includes(currentSlide) && autoAdvanceTimer) {
+        return;
+      }
+
+      advanceSlide();
+    });
+  }
+
   checkAutoAdvance();
   showSlideText();
 </script>
